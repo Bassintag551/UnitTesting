@@ -28,7 +28,7 @@ The second step is to set up the `unit_testing/validation.json`:
     (in the `validation.json` file)
 
   * `"validate"` will allow the use of a custom validation program, it will run the command contained in the `"validator"` field
-    (in the `validation.json` file) as such: `command <program stdout> <program return code> <command used to run program>`,
+    (in the `validation.json` file) as such: `command <command used to run program> <path to file containing program stdout> <program return code> `,
     it should return 0 if evrything was correct, 1 if the program stdout was incorrect or 2 if the program return code was incorrect
 
 Last step is to setup tests:
