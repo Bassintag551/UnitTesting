@@ -3,15 +3,11 @@
     [
 	{
 	    "id": "No args",
-	    "cmd": "$",
-	    "expected": "",
-	    "code": 84
+	    "cmd": "$"
 	},
 	{
 	    "id": "Too many args",
-	    "cmd": "$ 1 1 1",
-	    "expected": "",
-	    "code": 84
+	    "cmd": "$ 1 1 1"
 	}
     ]
 }

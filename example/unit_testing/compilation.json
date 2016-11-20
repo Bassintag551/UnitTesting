@@ -1,5 +1,5 @@
 {
     "make": "make re",
-    "clean": "make clean",
+    "clean": "make fclean",
     "name": "test"
 }

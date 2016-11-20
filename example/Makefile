@@ -5,7 +5,7 @@
 ## Login   <bassintag@epitech.eu>
 ##
 ## Started on  Sat Nov 19 19:00:33 2016 Bassintag
-## Last update Sat Nov 19 19:42:10 2016 Antoine Stempfer
+## Last update Sun Nov 20 14:02:29 2016 Antoine Stempfer
 ##
 
 CC	=	gcc
@@ -22,7 +22,7 @@ NAME	=	test
 
 OBJS	=	$(SRCS:.c=.o)
 
-SRCS	=	lul.c
+SRCS	=	example.c
 
 all: $(NAME)
 

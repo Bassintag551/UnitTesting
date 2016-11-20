@@ -3,21 +3,15 @@
     [
 	{
 	    "id": "Two one digit positive numbers",
-	    "cmd": "$ 1 1",
-	    "expected": "2",
-	    "code": 0
+	    "cmd": "$ 1 1"
 	},
 	{
 	    "id": "Two one digit negative numbers",
-	    "cmd": "$ -1 -1",
-	    "expected": "-3",
-	    "code": 0
+	    "cmd": "$ -1 -1"
 	},
 	{
 	    "id": "Two one digit positive/negative numbers",
-	    "cmd": "$ 1 -2",
-	    "expected": "-1",
-	    "code": 0
+	    "cmd": "$ 1 -2"
 	}
     ]
 }

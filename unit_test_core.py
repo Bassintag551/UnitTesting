@@ -6,9 +6,11 @@ from unit_test_groups import *
 from os import system as call
 from os.path import isfile, dirname, realpath
 from shutil import copytree
+import json
 
 COMPILATION_CFG = "unit_testing/compilation.json"
 GROUPS_CFG = "unit_testing/groups.json"
+VALIDATION_CFG = "unit_testing/validation.json"
 GROUPS_PATH = "unit_testing/group_%s.json"
 
 should_stop = False
@@ -16,12 +18,21 @@ timeout = 120
 command = ""
 
 def check_setup():
-    if not isfile(GROUPS_CFG) or not isfile(COMPILATION_CFG):
+    if not isfile(GROUPS_CFG) or not isfile(COMPILATION_CFG) or not isfile(VALIDATION_CFG):
         print("Testing environment isn't setup, use --setup to do a quick setup or --help for help")
         return (False)
     return (True)
 
+def unsigned_int(value):
+    int_value = int(value)
+    if int_value < 0:
+        raise argparse.ArgumentTypeError("invalid unsigned int value: '%s'" % value)
+    return (int_value)
+
 def run_group_tests(out):
+    f = open(VALIDATION_CFG)
+    validation = json.load(f)
+    f.close()
     groups = load_groups(GROUPS_CFG)
     results = []
     i = 0
@@ -37,7 +48,7 @@ def run_group_tests(out):
             continue
         print("\n\nRunning test group: %s\n" % group_id)
         call('echo "\n\nRunning test group: %s\n" >> %s' % (group_id, out))
-        tests = load_group_tests(GROUPS_PATH % group_id)
+        tests = load_group_tests(GROUPS_PATH % group_id, validation)
         for test in tests:
             code = test.run(out, "./" + command, timeout)
             if should_stop and code is not 0:
@@ -48,14 +59,18 @@ def run_group_tests(out):
             if code is 2:
                 results[i][1] += 1
         i += 1
-
     if not failed:
         print("\n\n")
+        total = 1.0
+        crashes = 0
         for i in range(0, len(groups)):
             group = groups[i]
             res = results[i]
+            total *= res[0]
+            crashes += res[1]
             print("Result for group %s: %.f%% (%d crash)"
                   % (group, res[0] * 100, res[1]))
+        print("\nTotal: %.f%% (%d crash)\n" % (total * 100, crashes))
 
 def compile(compiler, out):
     global command
@@ -71,7 +86,7 @@ def setup():
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-t", "--timeout", dest="timeout", type=int,
+    parser.add_argument("-t", "--timeout", dest="timeout", type=unsigned_int,
                         help="Sets the timeout value (default=120)")
     parser.add_argument("-o", "--output", dest="trace", type=str,
                         help="Sets the output file (default='trace')")

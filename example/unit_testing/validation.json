@@ -1,0 +1,4 @@
+{
+    "mode": "compare",
+    "correct": "python unit_testing/add.py"
+}
