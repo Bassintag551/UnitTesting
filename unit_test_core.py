@@ -12,6 +12,8 @@ GROUPS_CFG = "unit_testing/groups.json"
 GROUPS_PATH = "unit_testing/group_%s.json"
 
 should_stop = False
+timeout = 120
+command = ""
 
 def check_setup():
     if not isfile(GROUPS_CFG) or not isfile(COMPILATION_CFG):
@@ -37,7 +39,7 @@ def run_group_tests(out):
         call('echo "\n\nRunning test group: %s\n" >> %s' % (group_id, out))
         tests = load_group_tests(GROUPS_PATH % group_id)
         for test in tests:
-            code = test.run(out, "./test")
+            code = test.run(out, "./" + command, timeout)
             if should_stop and code is not 0:
                 failed = True
                 break
@@ -56,7 +58,9 @@ def run_group_tests(out):
                   % (group, res[0] * 100, res[1]))
 
 def compile(compiler, out):
+    global command
     compiler.compile(out)
+    command = compiler.bin_name
     if not compiler.check_compile(out):
         return (False)
     return (True)
@@ -85,8 +89,10 @@ def main():
         out = args.trace
     else:
         out = "trace"
-    global should_stop
+    global should_stop, timeout
     should_stop = args.should_stop
+    if timeout is not None:
+        timeout = args.timeout
     call("echo -n > %s" % out)
     print("Compiling program")
     compiler = load_compilation_settings(COMPILATION_CFG)

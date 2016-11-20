@@ -1,6 +1,8 @@
 #!/usr/bin/python
 from os import system as call
 from subprocess import PIPE, Popen
+from time import sleep
+from threading import Timer
 import json
 
 class   TestUnit:
@@ -10,17 +12,28 @@ class   TestUnit:
         self.expected = expected
         self.returncode = returncode
 
-    def run(self, out, cmd):
+    def run(self, out, cmd, timeout):
         log_msg = "Running test: %s" % self.name
-        print(log_msg + " ...", end='')
+        print(log_msg + " ...", end='', flush=True)
         call('echo "Running test %s" >> %s' % (self.name, out))
         command = self.args.replace("$", cmd)
         call('echo "%s" >> %s' % (command, out))
         result = Popen(command, stdout=PIPE, stderr=PIPE,
                        universal_newlines=True, shell=True)
-        res, err = result.communicate()
-        code = result.returncode
-        if code is not 0 and code is not 84:
+        kill_prog = lambda prog: prog.kill()
+        timer = Timer(timeout, kill_prog, [result])
+        try:
+            timer.start()
+            res, err = result.communicate()
+            code = result.returncode
+        finally:
+            timer.cancel()
+        if code == -9:
+            print("\r" + log_msg + " Timeout")
+            call('echo "Exec error: program timed out (Max: %d sec)" >> %s' %
+                 (timeout, out))
+            return (3)
+        if code < 0:
             print("\nCrashed")
             call('echo "Exec error: program crashed (Code: %d)" >> %s' %
                  (code, out))
