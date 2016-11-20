@@ -1,0 +1,17 @@
+{
+    "tests":
+    [
+	{
+	    "id": "No args",
+	    "cmd": "$",
+	    "expected": "",
+	    "code": 84
+	},
+	{
+	    "id": "Too many args",
+	    "cmd": "$ 1 1 1",
+	    "expected": "",
+	    "code": 84
+	}
+    ]
+}

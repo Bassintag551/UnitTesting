@@ -1,0 +1,23 @@
+{
+    "tests":
+    [
+	{
+	    "id": "Two multiple digits positive numbers",
+	    "cmd": "$ 10000 123",
+	    "expected": "10123",
+	    "code": 0
+	},
+	{
+	    "id": "Two multiple digits negative numbers",
+	    "cmd": "$ -10000 -123",
+	    "expected": "-10123",
+	    "code": 0
+	},
+	{
+	    "id": "Two multiple digits positive/negative numbers",
+	    "cmd": "$ 500 -1000",
+	    "expected": "-500",
+	    "code": 0
+	}
+    ]
+}
