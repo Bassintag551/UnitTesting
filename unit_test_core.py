@@ -61,15 +61,16 @@ def run_group_tests(out):
         i += 1
     if not failed:
         print("\n\n")
-        total = 1.0
+        total = 0.0
         crashes = 0
         for i in range(0, len(groups)):
             group = groups[i]
             res = results[i]
-            total *= res[0]
+            total += res[0]
             crashes += res[1]
             print("Result for group %s: %.f%% (%d crash)"
                   % (group, res[0] * 100, res[1]))
+        total /= len(groups)
         print("\nTotal: %.f%% (%d crash)\n" % (total * 100, crashes))
 
 def compile(compiler, out):
