@@ -1,0 +1,11 @@
+{
+    "tests":
+    [
+	{
+	    "id": "Sample",
+	    "cmd": "$",
+	    "expected": "",
+	    "code": 0
+	}
+    ]
+}
