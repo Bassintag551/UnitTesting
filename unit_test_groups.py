@@ -5,6 +5,8 @@ from time import sleep
 from threading import Timer
 import json
 
+PATH_TMP_OUT = "unit_testing/res.tmp"
+
 class   TestUnit:
     def run_prog(self, out, cmd, timeout):
         log_msg = "Running test: %s" % self.name
@@ -62,7 +64,11 @@ class   TestUnit:
         log_msg = "Running test: %s" % self.name
         if status != 0:
             return (status)
-        check = Popen(self.corrector + " '%s' '%s' '%i'" % (self.args, res, code),
+        print("\r" + log_msg + " Validating...", end='')
+        f = open(PATH_TMP_OUT, "w")
+        f.write(res)
+        f.close()
+        check = Popen(self.corrector + " '%s' '%s' '%i'" % (self.args, PATH_TMP_OUT, code),
                       shell=True)
         check.communicate()
         check_code = check.returncode
@@ -77,7 +83,7 @@ class   TestUnit:
                  % (out))
             return (1)
         call('echo "OK" >> %s' % out)
-        print("\r" + log_msg + " OK ")
+        print("\r" + log_msg + " OK                ")
         return (0)
 
     def run_compare_to(self, out, cmd, timeout):

@@ -1,0 +1,58 @@
+Compiling...
+rm -f example.o
+gcc -Wextra -Wall -Werror -I include   -c -o example.o example.c
+gcc example.o -o test 
+Done
+
+Checking if compilation was successful
+It was
+
+
+Running test group: easy
+
+Running test Two one digit positive numbers
+./test 1 1
+python unit_testing/add.py 1 1
+OK
+Running test Two one digit negative numbers
+./test -1 -1
+python unit_testing/add.py -1 -1
+OK
+Running test Two one digit positive/negative numbers
+./test 1 -2
+python unit_testing/add.py 1 -2
+OK
+
+
+Running test group: medium
+
+Running test Two multiple digits positive numbers
+./test 10000 123
+python unit_testing/add.py 10000 123
+OK
+Running test Two multiple digits negative numbers
+./test -10000 -123
+python unit_testing/add.py -10000 -123
+OK
+Running test Two multiple digits positive/negative numbers
+./test 500 -1000
+python unit_testing/add.py 500 -1000
+OK
+
+
+Running test group: hard
+
+Running test No args
+./test
+python unit_testing/add.py
+OK
+Running test Too many args
+./test 1 1 1
+python unit_testing/add.py 1 1 1
+OK
+
+
+Cleaning...
+rm -f example.o
+rm -f test
+Done
