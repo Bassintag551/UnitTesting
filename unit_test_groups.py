@@ -70,9 +70,17 @@ class   TestUnit:
         f.write(res)
         f.close()
         check = Popen(self.corrector + " '%s' '%s' '%i'" % (self.args, PATH_TMP_OUT, code),
-                      shell=True)
-        check.communicate()
+                      shell=True, stdout=PIPE, stderr=PIPE)
+        res, err = check.communicate()
         check_code = check.returncode
+        if len(res) > 0:
+            call('echo "BEGIN STDOUT TRACE:" >> %s' % (out))
+            call('echo "%s" >> %s' % (res, out))
+            call('echo "END STDOUT TRACE" >> %s' % (out))
+        if len(err) > 0:
+            call('echo "BEGIN STDERR TRACE:" >> %s' % (out))
+            call('echo "%s" >> %s' % (err, out))
+            call('echo "END STDERR TRACE" >> %s' % (out))
         if check_code is 1:
             print("\r" + log_msg + " KO            ")
             call('echo "KO, validator returned error: wrong output" >> %s' %
