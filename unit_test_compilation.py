@@ -1,4 +1,5 @@
-#!/usr/bin/python
+#!/usr/bin/python3
+
 from os import system as call
 from os.path import isfile
 import json

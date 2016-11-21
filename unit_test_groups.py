@@ -1,4 +1,5 @@
-#!/usr/bin/python
+#!/usr/bin/python3
+
 from os import system as call
 from subprocess import PIPE, Popen
 from time import sleep
@@ -73,12 +74,12 @@ class   TestUnit:
         check.communicate()
         check_code = check.returncode
         if check_code is 1:
-            print("\r" + log_msg + " KO ")
+            print("\r" + log_msg + " KO            ")
             call('echo "KO, validator returned error: wrong output" >> %s' %
                  (out))
             return (1)
         if check_code is 2:
-            print("\r" + log_msg + " KO ")
+            print("\r" + log_msg + " KO            ")
             call('echo "KO, validator returned error: wrong return code" >> %s'
                  % (out))
             return (1)
