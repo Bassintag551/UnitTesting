@@ -111,7 +111,7 @@ class   TestUnit:
             call('echo "KO, expected: %s and got: %s" >> %s' %
                  (correct_res, res, out))
             return (1)
-        if not code  == correct_code:
+        if (correct_code == 0 and code != 0) or (correct_code != 0 and code == 0) :
             print("\r" + log_msg + " KO ")
             call('echo "KO, got incorrect return code: %d (expected %d)" >> %s'
                  % (code, correct_code, out))
